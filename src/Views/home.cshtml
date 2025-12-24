@@ -1,0 +1,20 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+    Layout = "master.cshtml";
+    
+    // Pasar datos al Master usando ViewData
+    ViewData["titulo"] = Model.Value("titulo");
+    ViewData["subtitulo"] = Model.Value("subtitulo");
+    ViewData["descripcion"] = Model.Value("metaDescription");
+    ViewData["piePersonalizado"] = Model.Value("footerText");
+    ViewData["titulo2"] = Model.Value("titulo2");
+}
+
+<!-- Este es el contenido que irá en @RenderBody() del Master -->
+<div class="contenido-principal">
+    @Model.Value("bodyText")
+</div>
+
+<div class="widget">
+    @Model.Value("widgetContent")
+</div>
