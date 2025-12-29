@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y \
 
 # Crear el script de inicio directamente en el contenedor
 RUN printf '#!/bin/bash\n\
-set -e\n\
+set -x\n\
 \n\
 cd /app/project\n\
 \n\
@@ -62,7 +62,7 @@ APPSETTINGS_EOF\n\
       "commandName": "Project",\n\
       "dotnetRunMessages": true,\n\
       "launchBrowser": false,\n\
-      "applicationUrl": "http://localhost:5000",\n\
+      "applicationUrl": "http://localhost:5001",\n\
       "environmentVariables": {\n\
         "ASPNETCORE_ENVIRONMENT": "Development"\n\
       }\n\
@@ -73,23 +73,31 @@ LAUNCH_EOF\n\
   fi\n\
 fi\n\
 \n\
+# Asegurar que App_Data tenga los permisos correctos para evitar problemas multiplataforma\n\
+chmod -R 777 /app/project/App_Data 2>/dev/null || true\n\
+chmod -R 777 /app/project/wwwroot/media 2>/dev/null || true\n\
+\n\
 echo "Creando directorios necesarios..."\n\
 mkdir -p wwwroot/media\n\
 mkdir -p App_Data\n\
 mkdir -p umbraco/Data\n\
 \n\
+# Limpiar build artifacts anteriores que puedan tener permisos raros\n\
+echo "Limpiando build artifacts anteriores..."\n\
+rm -rf bin obj 2>/dev/null || true\n\
+\n\
 echo "Restaurando dependencias..."\n\
 dotnet restore\n\
 \n\
-echo "Iniciando Umbraco..."\n\
-dotnet watch run --no-restore --urls "http://+:5000"\n' > /app/start.sh \
+echo "Iniciando Umbraco con hot reload..."\n\
+exec dotnet watch run --no-restore --urls "http://+:5001" --verbose\n' > /app/start.sh \
     && chmod +x /app/start.sh
 
 # Exponer el puerto
-EXPOSE 5000
+EXPOSE 5001
 
 # Variables de entorno - Solo HTTP
-ENV ASPNETCORE_URLS=http://+:5000
+ENV ASPNETCORE_URLS=http://+:5001
 ENV ASPNETCORE_ENVIRONMENT=Development
 
 CMD ["/bin/bash", "/app/start.sh"]

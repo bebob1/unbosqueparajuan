@@ -4,13 +4,15 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+      - "5001:5001"  # Cambiado de 5000 a 5001 para evitar conflicto con AirPlay en macOS
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:5000
+      - ASPNETCORE_URLS=http://+:5001
       - Umbraco__CMS__Global__UseHttps=false
     volumes:
-      - ./src:/app/project
+      - ./src:/app/project:delegated  # delegated = mejor rendimiento en macOS
+      - umbraco-data:/app/project/App_Data  # Volumen Docker para la BD SQLite
+      - umbraco-media:/app/project/wwwroot/media  # Volumen para archivos media
       - umbraco-packages:/root/.nuget/packages
     restart: unless-stopped
     stdin_open: true
@@ -19,3 +21,5 @@ services:
 
 volumes:
   umbraco-packages:
+  umbraco-data:  # Aquí vive la BD SQLite, dentro de Docker, no en macOS
+  umbraco-media:  # Archivos media también en Docker

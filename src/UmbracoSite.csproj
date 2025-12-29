@@ -4,6 +4,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <CompressionEnabled>false</CompressionEnabled> <!-- Disable compression. E.g. for umbraco backoffice files. These files should be precompressed by node and not let dotnet handle it -->
+    <!-- Workaround for Docker + macOS build issue: rename the output executable -->
+    <AssemblyName>UmbracoApp</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,0 +1,23 @@
+# Ignorar archivos de base de datos locales para evitar conflictos multiplataforma
+*.db
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+src/App_Data/**
+src/umbraco/Data/**
+
+# Ignorar archivos de build
+**/bin/
+**/obj/
+**/.vs/
+
+# Ignorar archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar logs
+**/logs/
+*.log
+
+# Ignorar archivos de node (si los hay)
+node_modules/
