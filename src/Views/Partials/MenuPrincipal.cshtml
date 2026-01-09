@@ -1,0 +1,30 @@
+@using Umbraco.Cms.Web.Common.PublishedModels
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Umbraco.Extensions
+
+@{
+    var selection = Model.Root().Children().Where(x => x.IsVisible()).ToArray();
+    var urlActual = Model.Url();
+}
+
+@if (selection.Length > 0)
+{
+    <ul>
+        <li>
+            <a class="nav-link @(urlActual.Equals("/") ? "active" : "")" href="/">Inicio</a>
+        </li>
+        @foreach (var item in selection)
+        {
+            var mostrarEnMenu = item.HasProperty("mostrar_en_menu") 
+                ? item.Value<bool>("mostrar_en_menu") 
+                : true;
+            
+            if (mostrarEnMenu)
+            {
+                <li>
+                    <a href="@item.Url()" class="nav-link @(item.IsAncestorOrSelf(Model) ? "active" : string.Empty)">@item.Name</a>
+                </li>
+            }
+        }
+    </ul>
+}

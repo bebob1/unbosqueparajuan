@@ -1,30 +1,129 @@
-﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+﻿@using Umbraco.Cms.Web.Common.PublishedModels
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Extensions
 @{
     Layout = null;
+
+    // Get basic design settings from the homepage
+    var home = Model.Root() as Inicio;
+    
+    if (home == null)
+    {
+        // Fallback si Root no es de tipo Inicio
+        home = Model.Root().DescendantsOrSelf<Inicio>().FirstOrDefault();
+    }
+
+    string domain = $"{Context.Request.Scheme}://{Context.Request.Host}";
+
+    // Obtener formulario y calcular total de árboles
+    var formularioSiembra = home?.Children<FormularioRegistroSiembra>()
+        .FirstOrDefault(x => x.IsVisible());
+    
+    // Temporalmente comentado hasta solucionar el problema de NumeroDeArboles
+    var numero = 0; // formularioSiembra?.Children<ItemRegistro>().Sum(x => x.NumeroDeArboles) ?? 0;
 }
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>@(ViewData["titulo"] ?? Model.Value("titulo") ?? "Título por defecto")</title>
-    <meta name="description" content="@(ViewData["descripcion"] ?? Model.Value("metaDescription"))">
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Un bosque para Juan</title>
+
+    <link href="~/Static/img/favicon.png" rel="icon" />
+    <link href="~/Static/img/apple-touch-icon.png" rel="apple-touch-icon" />
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet" />
+
+    <!-- CSS Files -->
+    <link href="~/Static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Static/css/style.css" rel="stylesheet" />
+    <link href="~/Static/css/flickty.css" rel="stylesheet" />
+
+    @if (IsSectionDefined("css"))
+    {
+        @RenderSection("css", false)
+    }
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-14X5512Y3B"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-14X5512Y3B');
+    </script>
 </head>
 <body>
-    <header>
-        <h1>@(ViewData["titulo"] ?? Model.Value("titulo"))</h1>
-		<h1>@(ViewData["titulo2"] ?? Model.Value("titulo2"))</h1>
-        @if(ViewData["subtitulo"] != null)
-        {
-            <p>@ViewData["subtitulo"]</p>
-        }
+    <header id="header" class="fixed-top">
+        <div class="container d-flex align-items-center justify-content-lg-between">
+            <h1 class="logo me-auto me-lg-0"></h1>
+
+            <nav id="navbar" class="navbar order-last order-lg-0">
+                @await Html.PartialAsync("~/Views/Partials/MenuPrincipal.cshtml")
+
+                <i class="mobile-nav-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+                    </svg>
+                </i>
+            </nav>
+        </div>
     </header>
-    
-    <main>
+
+    <main id="main">
         @RenderBody()
     </main>
-    
-    <footer>
-        @(ViewData["piePersonalizado"] ?? "Footer por defecto")
+
+    <footer id="footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p style="font-size:2em">
+                            Juan soñaba con sembrar
+                            <br /><b>1 millón </b>de arboles
+                            <br />llevamos
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="footer-info">
+                            <div class="content d-flex flex-column justify-content-center">
+                                <div class="row">
+                                    <div class="col-md-6 d-md-flex align-items-md-stretch">
+                                        <div class="count-box">
+                                            <h1 data-purecounter-start="0" data-purecounter-end="@numero" data-purecounter-duration="2" class="purecounter"></h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </footer>
+
+    <div id="preloader"></div>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+        <i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z" />
+            </svg>
+        </i>
+    </a>
+
+    <!-- JS Files -->
+    <script src="~/Static/js/jquery.min.js"></script>
+    <script src="~/Static/vendor/purecounter/purecounter.js"></script>
+    <script src="~/Static/js/flickity.js"></script>
+    <script src="~/Static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Static/js/main.js"></script>
+    
+    @if (IsSectionDefined("js"))
+    {
+        @RenderSection("js", false)
+    }
 </body>
 </html>

@@ -1,0 +1,44 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@using UnBosqueParaJuan.Models;
+@using System.Globalization;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<FormularioRegistroSiembra>
+@{
+    Layout = "Master.cshtml";
+    
+    // Establecer cultura a español para los formatos de las fechas
+    var culture = new CultureInfo("es-CO");
+    System.Threading.Thread.CurrentThread.CurrentCulture = culture;
+    System.Threading.Thread.CurrentThread.CurrentUICulture = culture;
+}
+
+@if (Model != null && Model.Contenido != null)
+{
+    @Model.Contenido
+}
+
+<section id="contact" class="contact">
+    <div class="container">
+        <div class="section-title">
+            <h2>Siembra y</h2>
+            <p>registro de árboles</p>
+        </div>
+        <div class="row mt-5">
+            <div class="wrap-inputs boltform">
+                @await Html.PartialAsync("FormRegistroSiembra", new FormRegistroSiembra())
+            </div>
+        </div>
+    </div>
+</section>
+
+@section js{
+    <script src="https://www.google.com/recaptcha/api.js?render=6LeK9KUcAAAAAFOh_5WLu9Rlk88fLldhyD9VX99m"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function () {
+            grecaptcha.ready(function () {
+                grecaptcha.execute("6LeK9KUcAAAAAFOh_5WLu9Rlk88fLldhyD9VX99m", { action: "contacto" }).then(function (token) {
+                    document.getElementById("g-recaptcha-response").value = token;
+                });
+            });
+        });
+    </script>
+}

@@ -1,5 +1,11 @@
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+// Register HttpClient factory for Recaptcha service
+builder.Services.AddHttpClient();
+
+// Register Recaptcha service
+builder.Services.AddScoped<UnBosqueParaJuan.Controllers.Recaptcha>();
+
 builder.CreateUmbracoBuilder()
     .AddBackOffice()
     .AddWebsite()
