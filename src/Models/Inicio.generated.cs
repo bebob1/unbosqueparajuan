@@ -18,9 +18,23 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
+	// Mixin Content Type with alias "Inicio"
+	/// <summary>Contenido</summary>
+	public partial interface IInicio : IPublishedContent
+	{
+		/// <summary>contenido</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.0.2+497c31e")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		global::Umbraco.Cms.Core.Strings.IHtmlEncodedString Contenido { get; }
+
+		/// <summary>mostrar en menu</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.0.2+497c31e")]
+		bool MostrarEnMenu { get; }
+	}
+
 	/// <summary>Contenido</summary>
 	[PublishedModel("Inicio")]
-	public partial class Inicio : PublishedContentModel
+	public partial class Inicio : PublishedContentModel, IInicio
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -50,18 +64,27 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		// properties
 
 		///<summary>
-		/// Contenido
+		/// contenido
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.0.2+497c31e")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("contenido")]
-		public virtual global::Umbraco.Cms.Core.Strings.IHtmlEncodedString Contenido => this.Value<global::Umbraco.Cms.Core.Strings.IHtmlEncodedString>(_publishedValueFallback, "contenido");
+		public virtual global::Umbraco.Cms.Core.Strings.IHtmlEncodedString Contenido => GetContenido(this, _publishedValueFallback);
+
+		/// <summary>Static getter for contenido</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.0.2+497c31e")]
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static global::Umbraco.Cms.Core.Strings.IHtmlEncodedString GetContenido(IInicio that, IPublishedValueFallback publishedValueFallback) => that.Value<global::Umbraco.Cms.Core.Strings.IHtmlEncodedString>(publishedValueFallback, "contenido");
 
 		///<summary>
 		/// mostrar en menu
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.0.2+497c31e")]
 		[ImplementPropertyType("mostrarEnMenu")]
-		public virtual bool MostrarEnMenu => this.Value<bool>(_publishedValueFallback, "mostrarEnMenu");
+		public virtual bool MostrarEnMenu => GetMostrarEnMenu(this, _publishedValueFallback);
+
+		/// <summary>Static getter for mostrar en menu</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.0.2+497c31e")]
+		public static bool GetMostrarEnMenu(IInicio that, IPublishedValueFallback publishedValueFallback) => that.Value<bool>(publishedValueFallback, "mostrarEnMenu");
 	}
 }

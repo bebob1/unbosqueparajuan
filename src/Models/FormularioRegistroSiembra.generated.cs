@@ -20,7 +20,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 {
 	/// <summary>Formulario Registro Siembra</summary>
 	[PublishedModel("formularioRegistroSiembra")]
-	public partial class FormularioRegistroSiembra : PublishedContentModel
+	public partial class FormularioRegistroSiembra : PublishedContentModel, IInicio
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -48,5 +48,20 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		}
 
 		// properties
+
+		///<summary>
+		/// contenido
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.0.2+497c31e")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("contenido")]
+		public virtual global::Umbraco.Cms.Core.Strings.IHtmlEncodedString Contenido => global::Umbraco.Cms.Web.Common.PublishedModels.Inicio.GetContenido(this, _publishedValueFallback);
+
+		///<summary>
+		/// mostrar en menu
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.0.2+497c31e")]
+		[ImplementPropertyType("mostrarEnMenu")]
+		public virtual bool MostrarEnMenu => global::Umbraco.Cms.Web.Common.PublishedModels.Inicio.GetMostrarEnMenu(this, _publishedValueFallback);
 	}
 }

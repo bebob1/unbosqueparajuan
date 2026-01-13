@@ -3,9 +3,8 @@
 @using System.Globalization;
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<FormularioRegistroSiembra>
 @{
-    Layout = "Master.cshtml";
+    Layout = "master.cshtml";
     
-    // Establecer cultura a español para los formatos de las fechas
     var culture = new CultureInfo("es-CO");
     System.Threading.Thread.CurrentThread.CurrentCulture = culture;
     System.Threading.Thread.CurrentThread.CurrentUICulture = culture;
@@ -30,6 +29,7 @@
     </div>
 </section>
 
+@* RECAPTCHA DISABLED
 @section js{
     <script src="https://www.google.com/recaptcha/api.js?render=6LeK9KUcAAAAAFOh_5WLu9Rlk88fLldhyD9VX99m"></script>
     <script type="text/javascript" charset="utf-8">
@@ -42,3 +42,4 @@
         });
     </script>
 }
+*@
