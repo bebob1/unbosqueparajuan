@@ -92,7 +92,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		/// numero de árboles
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.0.2+497c31e")]
-		[ImplementPropertyType("numeroDeRboles")]
-		public virtual int NumeroDeRboles => this.Value<int>(_publishedValueFallback, "numeroDeRboles");
+		[ImplementPropertyType("numeroDeArboles")]
+		public virtual int NumeroDeArboles => this.Value<int>(_publishedValueFallback, "numeroDeArboles");
 	}
 }

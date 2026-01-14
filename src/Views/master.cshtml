@@ -20,8 +20,10 @@
     var formularioSiembra = home?.Children<FormularioRegistroSiembra>()
         .FirstOrDefault(x => x.IsVisible());
     
-    // Temporalmente comentado hasta solucionar el problema de NumeroDeArboles
-    var numero = 0; // formularioSiembra?.Children<ItemRegistro>().Sum(x => x.NumeroDeArboles) ?? 0;
+    // Calcular el total de árboles registrados
+    var numero = formularioSiembra?.Children<ItemRegistro>()
+        .Where(x => x.IsVisible())
+        .Sum(x => x.NumeroDeArboles) ?? 0;
 }
 <!DOCTYPE html>
 <html lang="es">
