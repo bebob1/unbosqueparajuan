@@ -3,70 +3,105 @@
 @using Umbraco.Extensions
 @model UnBosqueParaJuan.Models.FormRegistroSiembra
 
+<div style="background: #ffeb3b; border: 2px solid #f57f17; padding: 15px; margin: 15px 0; border-radius: 5px;">
+    <h4 style="margin: 0 0 10px 0; color: #f57f17;">🔍 DEBUG INFO</h4>
+    <strong>Current Path:</strong> @Context.Request.Path<br/>
+    <strong>Current Method:</strong> @Context.Request.Method<br/>
+    <strong>TempData["success"]:</strong> @(TempData["success"]?.ToString() ?? "null")<br/>
+    <strong>ModelState Valid:</strong> @ViewData.ModelState.IsValid<br/>
+</div>
+
 @if (TempData["success"] == null)
 {
-    using (Html.BeginUmbracoForm<FormRegistroSiembraController>("FormRegistroSiembra", new { id = "Registro", enctype = "multipart/form-data" }))
+    @using (Html.BeginUmbracoForm<FormRegistroSiembraController>("FormRegistroSiembra"))
     {
-        @Html.AntiForgeryToken()
-
         <div class="row form-row">
             <div class="form-group col-12">
                 <div class="invalid-feedback">
                     <div id="status">@Html.ValidationSummary()</div>
                 </div>
             </div>
+            
             <div class="form-group col-md-6">
                 <label for="Nombre" class="required">Nombre completo</label>
-                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", placeholder = "Ingrese el nombre" })
-                <div class="invalid-feedback">
-                    @Html.ValidationMessageFor(model => model.Nombre)
-                </div>
+                <input type="text" 
+                       id="Nombre" 
+                       name="Nombre" 
+                       class="form-control" 
+                       placeholder="Ingrese el nombre" 
+                       value="@Model?.Nombre" 
+                       required />
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "invalid-feedback" })
             </div>
 
             <div class="form-group col-md-6">
                 <label for="Email" class="required">Correo electrónico</label>
-                @Html.TextBoxFor(model => model.Email, new { @class = "email form-control", placeholder = "Ingrese el correo electrónico", type = "email", autocomplete = "off" })
-                <div class="invalid-feedback">
-                    @Html.ValidationMessageFor(model => model.Email)
-                </div>
+                <input type="email" 
+                       id="Email" 
+                       name="Email" 
+                       class="email form-control" 
+                       placeholder="Ingrese el correo electrónico" 
+                       autocomplete="off" 
+                       value="@Model?.Email" 
+                       required />
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "invalid-feedback" })
             </div>
 
             <div class="form-group col-md-6">
-                <label for="Fecha<" class="required">Fecha</label>
-                @Html.TextBoxFor(model => model.Fecha, new { @class = "form-control", placeholder = "Recuerda registrar solamente siembras realizadas después de Octubre 15 de 2017", type = "date" })
-                <div class="invalid-feedback">
-                    @Html.ValidationMessageFor(model => model.Fecha)
-                </div>
+                <label for="Fecha" class="required">Fecha</label>
+                <input type="date" 
+                       id="Fecha" 
+                       name="Fecha" 
+                       class="form-control" 
+                       placeholder="Recuerda registrar solamente siembras realizadas después de Octubre 15 de 2017" 
+                       value="@Model?.Fecha" 
+                       required />
+                @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "invalid-feedback" })
             </div>
 
             <div class="form-group col-md-6">
                 <label for="Lugar" class="required">Lugar de la siembra</label>
-                @Html.TextBoxFor(model => model.Lugar, new { @class = "form-control", placeholder = "Ingrese el lugar" })
-                <div class="invalid-feedback">
-                    @Html.ValidationMessageFor(model => model.Lugar)
-                </div>
+                <input type="text" 
+                       id="Lugar" 
+                       name="Lugar" 
+                       class="form-control" 
+                       placeholder="Ingrese el lugar" 
+                       value="@Model?.Lugar" 
+                       required />
+                @Html.ValidationMessageFor(model => model.Lugar, "", new { @class = "invalid-feedback" })
             </div>
 
             <div class="form-group col-md-6">
                 <label for="Numero_Arboles" class="required">Número de árboles</label>
-                @Html.TextBoxFor(model => model.Numero_Arboles, new { @class = "form-control", placeholder = "Ingrese el número de árboles", type = "number", min = 1, max = 10000 })
-                <div class="invalid-feedback">
-                    @Html.ValidationMessageFor(model => model.Numero_Arboles)
-                </div>
+                <input type="number" 
+                       id="Numero_Arboles" 
+                       name="Numero_Arboles" 
+                       class="form-control" 
+                       placeholder="Ingrese el número de árboles" 
+                       min="1" 
+                       max="10000" 
+                       value="@Model?.Numero_Arboles" 
+                       required />
+                @Html.ValidationMessageFor(model => model.Numero_Arboles, "", new { @class = "invalid-feedback" })
             </div>
 
             <div class="form-group col-md-6">
                 <label for="Especies" class="required">Especies</label>
-                @Html.TextBoxFor(model => model.Especies, new { @class = "form-control", placeholder = "Ingrese especies" })
-                <div class="invalid-feedback">
-                    @Html.ValidationMessageFor(model => model.Especies)
-                </div>
+                <input type="text" 
+                       id="Especies" 
+                       name="Especies" 
+                       class="form-control" 
+                       placeholder="Ingrese especies" 
+                       value="@Model?.Especies" 
+                       required />
+                @Html.ValidationMessageFor(model => model.Especies, "", new { @class = "invalid-feedback" })
             </div>
-
-            @* RECAPTCHA DISABLED - <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response" /> *@
         </div>
+        
         <div class="col-12 d-flex justify-content-center">
-            <button type="submit" class="btn btn button-slider shadow btn-secondary col-4 p-2 m-3" id="btn-enviarAtencion">Registrar siembra<i class="icon-send-button"></i></button>
+            <button type="submit" class="btn btn button-slider shadow btn-secondary col-4 p-2 m-3" id="btn-enviarAtencion">
+                Registrar siembra<i class="icon-send-button"></i>
+            </button>
         </div>
     }
 }
@@ -75,9 +110,11 @@ else
     <div id="send-message" class="centered">
         <div class="row">
             <div class="col-12">
-                <h2>Su siembra ha sido registrada correctamente, UnbosqueparaJuan y la tierra te lo agradecen </h2>
+                <h2>Su siembra ha sido registrada correctamente, UnbosqueparaJuan y la tierra te lo agradecen</h2>
                 <div class="row justify-content-center align-items-center">
-                    <a class="btn btn button-slider shadow btn-secondary col-4 p-2 m-3" href="."><span>Registrar otra siembra</span></a>
+                    <a class="btn btn button-slider shadow btn-secondary col-4 p-2 m-3" href=".">
+                        <span>Registrar otra siembra</span>
+                    </a>
                 </div>
             </div>
         </div>

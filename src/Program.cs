@@ -47,6 +47,17 @@ app.Use(async (context, next) =>
         context.Request.Method, 
         context.Request.Path);
     
+    // Log POST request details
+    if (context.Request.Method == "POST")
+    {
+        logger.LogInformation("POST Request Details:");
+        logger.LogInformation("  ContentType: {ContentType}", context.Request.ContentType);
+        logger.LogInformation("  HasFormContentType: {HasForm}", context.Request.HasFormContentType);
+        
+        // REMOVED: Reading form here was consuming the stream and causing 400 errors
+        // The form will be read by the controller instead
+    }
+    
     await next();
     
     logger.LogInformation("<<< RESPONSE: {StatusCode} for {Method} {Path}", 
